@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view">
+    <data readOnly="true">
+        <collection id="customersDc"
+                    class="com.company.gridinline.entity.Customer"
+                    fetchPlan="_local">
+            <loader id="customersDl">
+                <query>
+                    <![CDATA[select e from Customer e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <checkbox id="editorBufferedCheckbox" label="Editor buffered"/>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" text="Создать"/>
+            <simplePagination id="pagination" dataLoader="customersDl"/>
+        </hbox>
+        <dataGrid id="customersDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="customersDc">
+            <columns>
+                <column property="name" editable="true"/>
+                <column property="lastName" editable="true"/>
+                <column property="email" editable="true"/>
+                <column property="age"/>
+                <column property="active"/>
+                <column property="grade" editable="true"/>
+                <editorActionsColumn key="bufferedEditorColumn" visible="false">
+                    <editButton text="Edit" icon="PENCIL"/>
+                    <saveButton icon="CHECK" themeNames="success"/>
+                    <cancelButton icon="CLOSE" themeNames="error"/>
+                </editorActionsColumn>
+                <editorActionsColumn key="nonBufferedEditorColumn" visible="true">
+                    <editButton text="Edit" icon="PENCIL"/>
+                    <closeButton text="Close" icon="CLOSE"/>
+                </editorActionsColumn>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

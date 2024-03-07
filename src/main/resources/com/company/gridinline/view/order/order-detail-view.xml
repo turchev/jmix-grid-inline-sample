@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://orderDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="orderDc"
+                  class="com.company.gridinline.entity.Order">
+            <fetchPlan extends="_base">
+                <property name="customer" fetchPlan="_base"/>
+                <property name="orderLines" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+            <collection id="orderLinesDc" property="orderLines"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="orderDc">
+            <textField id="numberField" property="number" readOnly="true"/>
+            <textField id="costsField" property="costs" readOnly="true"/>
+            <datePicker id="orderDateField" property="orderDate"/>
+            <entityPicker id="customerField" property="customer">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+        </formLayout>
+        <h4 text="msg://com.company.gridinline.entity/Order.orderLines"/>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="orderLinesDataGrid.create"/>
+            <button id="removeBtn" action="orderLinesDataGrid.remove"/>
+        </hbox>
+        <dataGrid id="orderLinesDataGrid"
+                  dataContainer="orderLinesDc"
+                  width="100%" minHeight="20em">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name" editable="true"/>
+                <column property="price" editable="true"/>
+                <column property="quantity" editable="true"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
